@@ -1,0 +1,203 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=JetBrains+Mono:wght@700;800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --prd-primary: #4F46E5;
+  --prd-secondary: #06B6D4;
+  --prd-background: #0F172A;
+  --prd-accent: #22C55E;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: #070707;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.nova-panel {
+  border: 1px solid #555555;
+  border-radius: 28px;
+  background:
+    linear-gradient(115deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.015)),
+    #242424;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.45);
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease,
+    background 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.nova-panel:hover {
+  transform: translateY(-6px);
+  border-color: rgba(232, 221, 212, 0.58);
+  background:
+    radial-gradient(circle at 18% 12%, rgba(232, 221, 212, 0.12), transparent 34%),
+    linear-gradient(115deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.025)),
+    #282828;
+  box-shadow:
+    0 34px 90px rgba(0, 0, 0, 0.62),
+    0 0 0 1px rgba(232, 221, 212, 0.08),
+    0 0 34px rgba(232, 221, 212, 0.08);
+}
+
+.icon-tile {
+  display: inline-flex;
+  width: 52px;
+  height: 52px;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  border-radius: 16px;
+  background: #e8ddd4;
+  color: #050505;
+  transition:
+    transform 220ms ease,
+    background 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.nova-panel:hover .icon-tile,
+.icon-tile:hover {
+  transform: translateY(-2px) scale(1.04);
+  background: #fff3ea;
+  box-shadow: 0 12px 30px rgba(232, 221, 212, 0.2);
+}
+
+.nova-subcard {
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease,
+    background 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.nova-subcard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(232, 221, 212, 0.62);
+  background: rgba(255, 255, 255, 0.145);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 20px 42px rgba(0, 0, 0, 0.32);
+}
+
+.nova-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.nova-action:hover {
+  transform: translateY(-2px);
+  border-color: rgba(232, 221, 212, 0.72);
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.24);
+}
+
+.nova-cream-button {
+  transition:
+    transform 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.nova-cream-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: #fff6ee;
+  box-shadow: 0 18px 38px rgba(232, 221, 212, 0.18);
+}
+
+.nova-cream-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
+.nova-row {
+  transition:
+    background 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.nova-row:hover {
+  background: rgba(255, 255, 255, 0.045);
+  box-shadow: inset 3px 0 0 rgba(232, 221, 212, 0.5);
+}
+
+.nova-device-row {
+  border-radius: 12px;
+  padding: 4px 6px;
+  transition:
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+.nova-device-row:hover {
+  transform: translateX(4px);
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.nova-device-row span:nth-child(2) span {
+  transition:
+    width 220ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.nova-device-row:hover span:nth-child(2) span {
+  background: #fff4ec;
+  box-shadow: 0 0 18px rgba(232, 221, 212, 0.2);
+}
+
+.nova-input {
+  width: 100%;
+  border: 1px solid #5c5c5c;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+  outline: none;
+  padding: 22px 20px;
+  font-size: 18px;
+}
+
+.nova-input::placeholder {
+  color: #8f8b8d;
+}
+
+.nova-input:focus {
+  border-color: #e8ddd4;
+  box-shadow: 0 0 0 3px rgba(232, 221, 212, 0.12);
+}
+
+@media (max-width: 760px) {
+  .nova-panel {
+    border-radius: 22px;
+  }
+}
