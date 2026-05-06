@@ -108,6 +108,16 @@ Deployment checklist:
 6. Add production Google OAuth callback in Google Cloud Console.
 ```
 
+Render startup troubleshooting:
+
+```bash
+MONGO_URI must be only the URI value, not MONGO_URI=mongodb+srv://...
+APP_URL must be the Render backend URL, not localhost.
+CLIENT_URL must be the Vercel frontend URL in production.
+In MongoDB Atlas, add Render access under Network Access.
+For easiest Render testing, allow 0.0.0.0/0 in Atlas Network Access.
+```
+
 Google OAuth redirect URLs:
 
 ```bash

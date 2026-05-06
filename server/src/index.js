@@ -5,6 +5,7 @@ import express from 'express';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import { connectDb } from './lib/db.js';
+import { validateEnv } from './lib/env.js';
 import authRoutes from './routes/authRoutes.js';
 import billingRoutes from './routes/billingRoutes.js';
 import urlRoutes from './routes/urlRoutes.js';
@@ -12,11 +13,13 @@ import { redirectToOriginal } from './controllers/urlController.js';
 
 dotenv.config();
 
+validateEnv();
+
 const app = express();
 const port = process.env.PORT || 5000;
 const allowedOrigins = (process.env.CLIENT_URLS || process.env.CLIENT_URL || 'http://localhost:5173')
   .split(',')
-  .map((origin) => origin.trim())
+  .map((origin) => origin.trim().replace(/\/$/, ''))
   .filter(Boolean);
 
 app.set('trust proxy', 1);
@@ -24,7 +27,8 @@ app.use(helmet());
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+      const normalizedOrigin = origin?.replace(/\/$/, '');
+      if (!origin || allowedOrigins.includes(normalizedOrigin)) {
         callback(null, true);
         return;
       }
@@ -72,4 +76,13 @@ connectDb().then(() => {
 
     throw error;
   });
+}).catch((error) => {
+  console.error('Failed to start LinkNova API.');
+  console.error(`${error.name}: ${error.message}`);
+
+  if (/querySrv|ENOTFOUND|ETIMEOUT|MongoServerSelectionError/i.test(error.message) || error.name === 'MongoServerSelectionError') {
+    console.error('MongoDB troubleshooting: verify MONGO_URI in Render and allow Render access in MongoDB Atlas Network Access.');
+  }
+
+  process.exit(1);
 });
