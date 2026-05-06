@@ -14,6 +14,10 @@ export function validateEnv() {
     throw new Error('MONGO_URI value is invalid. Paste only the MongoDB URI, not "MONGO_URI=...".');
   }
 
+  if (process.env.NODE_ENV === 'production' && /^mongodb(\+srv)?:\/\/.+\/local(\?|$)/i.test(process.env.MONGO_URI || '')) {
+    throw new Error('MONGO_URI is using the MongoDB "local" database. Use an app database name like "linknova" instead.');
+  }
+
   if (process.env.NODE_ENV === 'production' && /localhost|127\.0\.0\.1/i.test(process.env.APP_URL || '')) {
     throw new Error('Production APP_URL must be your deployed backend URL, not localhost.');
   }

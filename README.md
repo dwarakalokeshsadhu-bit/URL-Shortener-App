@@ -81,6 +81,13 @@ GOOGLE_CLIENT_ID=<google-client-id>
 GOOGLE_CLIENT_SECRET=<google-client-secret>
 ```
 
+For your current deployed frontend, use:
+
+```bash
+CLIENT_URL=https://url-shortener-app-rust.vercel.app
+CLIENT_URLS=https://url-shortener-app-rust.vercel.app,http://localhost:5173
+```
+
 Frontend on Vercel:
 
 ```bash
@@ -112,10 +119,18 @@ Render startup troubleshooting:
 
 ```bash
 MONGO_URI must be only the URI value, not MONGO_URI=mongodb+srv://...
+MONGO_URI database name must not be local. Use /linknova or another app database name.
 APP_URL must be the Render backend URL, not localhost.
 CLIENT_URL must be the Vercel frontend URL in production.
+If the browser says CORS blocked `https://url-shortener-app-rust.vercel.app`, add that exact origin to Render `CLIENT_URLS`.
 In MongoDB Atlas, add Render access under Network Access.
 For easiest Render testing, allow 0.0.0.0/0 in Atlas Network Access.
+```
+
+Correct Atlas example:
+
+```bash
+MONGO_URI=mongodb+srv://<user>:<password>@<cluster>/linknova?retryWrites=true&w=majority&appName=<appName>
 ```
 
 Google OAuth redirect URLs:
