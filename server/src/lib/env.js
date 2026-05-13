@@ -26,11 +26,19 @@ export function validateEnv() {
     throw new Error('Production APP_URL must be your deployed backend URL, not localhost.');
   }
 
+  const isLocalUrl = (value) => /localhost|127\.0\.0\.1/i.test(value || '');
+
+  if (process.env.NODE_ENV === 'production' && isLocalUrl(process.env.CLIENT_URL)) {
+    throw new Error('Production CLIENT_URL must be your deployed frontend URL, not localhost.');
+  }
+
   const clientOrigins = [process.env.CLIENT_URL, ...(process.env.CLIENT_URLS || '').split(',')]
     .filter(Boolean)
     .map((origin) => origin.trim());
 
-  if (process.env.NODE_ENV === 'production' && clientOrigins.some((origin) => /localhost|127\.0\.0\.1/i.test(origin))) {
-    throw new Error('Production CLIENT_URL must be your deployed frontend URL, not localhost.');
+  const hasDeployedClientOrigin = clientOrigins.some((origin) => !isLocalUrl(origin));
+
+  if (process.env.NODE_ENV === 'production' && !hasDeployedClientOrigin) {
+    throw new Error('Production CLIENT_URL or CLIENT_URLS must include your deployed frontend URL.');
   }
 }
