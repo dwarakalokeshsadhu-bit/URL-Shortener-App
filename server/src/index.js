@@ -13,8 +13,6 @@ import { redirectToOriginal } from './controllers/urlController.js';
 
 dotenv.config();
 
-validateEnv();
-
 const app = express();
 const port = process.env.PORT || 5000;
 const allowedOrigins = (process.env.CLIENT_URLS || process.env.CLIENT_URL || 'http://localhost:5173')
@@ -62,7 +60,10 @@ app.use((error, _req, res, _next) => {
   res.status(error.status || 500).json({ message: error.message || 'Something went wrong' });
 });
 
-connectDb().then(() => {
+async function startServer() {
+  validateEnv();
+  await connectDb();
+
   const server = app.listen(port, () => {
     console.log(`LinkNova API running on port ${port}`);
     console.log(`Allowed client origins: ${allowedOrigins.join(', ')}`);
@@ -76,7 +77,9 @@ connectDb().then(() => {
 
     throw error;
   });
-}).catch((error) => {
+}
+
+startServer().catch((error) => {
   console.error('Failed to start LinkNova API.');
   console.error(`${error.name}: ${error.message}`);
 

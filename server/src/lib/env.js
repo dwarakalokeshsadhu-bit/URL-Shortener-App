@@ -2,10 +2,14 @@ export function validateEnv() {
   const required = ['JWT_SECRET'];
 
   if (process.env.NODE_ENV === 'production') {
-    required.push('MONGO_URI', 'APP_URL', 'CLIENT_URL');
+    required.push('MONGO_URI', 'APP_URL');
   }
 
   const missing = required.filter((key) => !process.env[key]);
+  if (process.env.NODE_ENV === 'production' && !process.env.CLIENT_URL && !process.env.CLIENT_URLS) {
+    missing.push('CLIENT_URL or CLIENT_URLS');
+  }
+
   if (missing.length) {
     throw new Error(`Missing required environment variables: ${missing.join(', ')}`);
   }
@@ -22,7 +26,11 @@ export function validateEnv() {
     throw new Error('Production APP_URL must be your deployed backend URL, not localhost.');
   }
 
-  if (process.env.NODE_ENV === 'production' && /localhost|127\.0\.0\.1/i.test(process.env.CLIENT_URL || '')) {
+  const clientOrigins = [process.env.CLIENT_URL, ...(process.env.CLIENT_URLS || '').split(',')]
+    .filter(Boolean)
+    .map((origin) => origin.trim());
+
+  if (process.env.NODE_ENV === 'production' && clientOrigins.some((origin) => /localhost|127\.0\.0\.1/i.test(origin))) {
     throw new Error('Production CLIENT_URL must be your deployed frontend URL, not localhost.');
   }
 }
